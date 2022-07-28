@@ -1,0 +1,17 @@
+[
+    "function balanceOf(address owner) view returns (uint)",
+    "function ownerOf(uint tokenId) view returns(address)",
+    "function safeTransferFrom(address _from, address _to, uint _tokenId, bytes data)",
+    "function safeTransferFrom(address _from, address _to, uint _tokenId)",
+    "function transferFrom(address _from, address _to, uint tokenId) public",
+    "function approve(address _approved, uint _tokenId)",
+    "event Transfer(address indexed _from, address indexed _to, uint indexed _tokenId)",
+    "function name() external view returns (string)",
+    "function symbol() external view returns (string)",
+    "function tokenURI(uint _tokenId) view returns (string)",
+    "function totalSupply()  view returns (uint)",
+    "function tokenByIndex(uint _index)  view returns (uint)",
+    "function tokenOfOwnerByIndex(address _owner, uint _index)  view returns (uint)",
+    "function getBalances(address owner) view returns (uint[])",
+    "function supportsInterface(bytes4 interfaceId) view returns (bool)"
+]
