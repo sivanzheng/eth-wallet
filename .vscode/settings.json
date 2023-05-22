@@ -1,7 +1,7 @@
 {
     "eslint.run": "onType",
     "eslint.options": {
-        "overrideConfigFile": ".eslintrc.yml",
+        "overrideConfigFile": ".eslintrc.js",
         "extensions": [
             ".js",
             ".ts",
@@ -10,9 +10,8 @@
         ]
     },
     "editor.codeActionsOnSave": {
-        // "source.fixAll": true
+        "source.fixAll": true
     },
-    "eslint.alwaysShowStatus": true,
     "search.followSymlinks": false,
     "files.exclude": {
         "**/.git": true,
@@ -32,5 +31,14 @@
         "**/tmp/**": true,
         "**/bower_components/**": true,
         "**/dist/**": true
-    }
+    },
+    "cSpell.words": [
+        "daterange",
+        "edate",
+        "forex",
+        "multilines",
+        "parens",
+        "RATEFORCECASTINGMODEL",
+        "sdate"
+    ],
 }

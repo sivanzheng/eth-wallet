@@ -1,24 +1,26 @@
 import { ethers } from 'ethers'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import TextField from '@mui/material/TextField'
-import InputAdornment from '@mui/material/InputAdornment'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
+import {
+    Alert,
+    Box,
+    Button,
+    IconButton,
+    TextField,
+    Typography,
+    InputAdornment,
+    FormControl,
+    Tooltip,
+    Snackbar,
+    LinearProgress,
+} from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import FormControl from '@mui/material/FormControl'
-import Tooltip from '@mui/material/Tooltip'
-import Snackbar from '@mui/material/Snackbar'
-import Box from '@mui/material/Box'
-import Alert from '@mui/material/Alert'
-import LinearProgress from '@mui/material/LinearProgress'
+
 import { orange } from '@mui/material/colors'
 
-import { STORAGE_KEY } from '@/common/models'
+import { StorageKey } from '@/common/models'
 import { useGlobalContext, Actions } from '@/contexts/GlobalProvider'
-import './index.less'
 
 export default function CreateAccount() {
     const { state } = useGlobalContext()
@@ -67,10 +69,10 @@ export default function CreateAccount() {
             },
         )
 
-        window.localStorage.setItem(STORAGE_KEY.ENCRYPTED_JSON_WALLET, result)
+        window.localStorage.setItem(StorageKey.EncryptedJsonWallet, result)
 
         dispatch({
-            type: Actions.SET_WALLAT,
+            type: Actions.SetWallet,
             payload: { wallet },
         })
 
@@ -79,17 +81,28 @@ export default function CreateAccount() {
     }
 
     return (
-        <div className="create-account-container">
+        <Box
+            sx={{
+                p: 2,
+                height: '100%',
+            }}
+        >
             <Snackbar
                 open={openState}
                 autoHideDuration={1000}
                 anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
             >
-                <Alert severity="error" sx={{ width: '100%' }}>
+                <Alert
+                    severity="error"
+                    sx={{ width: '100%' }}
+                >
                     错误！请重试！
                 </Alert>
             </Snackbar>
-            <Typography variant="h5" component="h5">
+            <Typography
+                variant="h5"
+                component="h5"
+            >
                 欢迎使用Wallet
             </Typography>
             <form onSubmit={handleSubmit}>
@@ -103,7 +116,7 @@ export default function CreateAccount() {
                         label="设置钱包密码"
                         variant="standard"
                         autoComplete="off"
-                        className="input"
+                        sx={{ mt: 2 }}
                         type={passwordVisibility ? 'text' : 'password'}
                         InputProps={{
                             endAdornment: (
@@ -175,6 +188,6 @@ export default function CreateAccount() {
                     </Box>
                 )
             }
-        </div>
+        </Box>
     )
 }

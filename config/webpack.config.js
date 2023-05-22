@@ -1,7 +1,6 @@
 const dotenv = require('dotenv')
 const webpack = require('webpack')
 const path = require('path')
-const autoprefixer = require('autoprefixer')
 const { merge } = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -17,7 +16,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const config = {
-    mode: 'production',
     entry: path.resolve(__dirname, '../src/index.tsx'),
     output: {
         path: path.resolve(__dirname, '../build'),
@@ -28,26 +26,6 @@ const config = {
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 type: 'asset',
-            },
-            {
-                test: /\.less$/i,
-                use: [
-                    {
-                        loader: 'style-loader',
-                    },
-                    {
-                        loader: 'css-loader',
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                plugins: [autoprefixer],
-                            },
-                        },
-                    },
-                    'less-loader',
-                ],
             },
             {
                 test: /\.(js|mjs|jsx|ts|tsx)$/i,
@@ -74,8 +52,8 @@ const config = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../public/index.html'), // 输入index.html
-            // favicon: path.resolve(__dirname, '../public/favicon.ico'), // favicon图标
+            template: path.resolve(__dirname, '../public/index.html'),
+            // favicon: path.resolve(__dirname, '../public/favicon.ico'),
         }),
         new webpack.DefinePlugin({
             process: {

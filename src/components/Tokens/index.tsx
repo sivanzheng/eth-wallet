@@ -1,33 +1,55 @@
 import { ethers } from 'ethers'
 import {
-    useState, useEffect, useContext,
+    useState,
+    useEffect,
+    useContext,
 } from 'react'
 import { throttle } from 'lodash'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import List from '@mui/material/List'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemText from '@mui/material/ListItemText'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
+import {
+    Avatar,
+    Box,
+    Button,
+    Divider,
+    List,
+    ListItemButton,
+    ListItemText,
+    ListItemAvatar,
+} from '@mui/material'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import SendIcon from '@mui/icons-material/Send'
 
 import { Context, GlobalContext } from '@/contexts/GlobalProvider'
-import { generateIcon, getTokenInfo, getTokenBalance } from '@/common/utils'
+import {
+    generateIcon,
+    getTokenInfo,
+    getTokenBalance,
+} from '@/common/utils'
 import { Token } from '@/common/models'
 import ethIcon from '@/assets/ether.png'
 
 import ImportTokenDialog from './ImportTokenDialog'
 import SentTokenDialog from './SendTokenDialog'
-import './index.less'
 
 const provider = ethers.getDefaultProvider('ropsten')
 const initialETH: Token = {
     icon: (
-        <div className="eth-icon">
-            <img className="img-icon" src={ethIcon} alt="" />
-        </div>
+        <Box
+            sx={{
+                border: '1px solid #d0d0d0',
+                boxSizing: 'border-box',
+                backgroundColor: 'transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+            }}
+        >
+            <Box
+                component="img"
+                sx={{ width: '100%', height: '100%' }}
+                src={ethIcon}
+                alt="eth-icon"
+            />
+        </Box>
     ),
     decimals: 18,
     name: 'ETH',
@@ -132,7 +154,8 @@ export default function Tokens() {
     }, [tokens.length])
 
     const handleClick = (token: Token) => {
-        if (token.balance <= 0) return
+        if (Number.isNaN(Number(token.balance))) return
+        if ((token.balance as number) <= 0) return
         setSelectedToken(token)
         setSentTokenDialogBeenOpened(true)
     }
@@ -151,7 +174,7 @@ export default function Tokens() {
     }
 
     return (
-        <div className="token-container">
+        <Box>
             <ImportTokenDialog open={importDialogBeenOpened} onClose={() => setImportDialogBeenOpened(false)} />
             <SentTokenDialog
                 open={sentTokenDialogBeenOpened}
@@ -159,10 +182,15 @@ export default function Tokens() {
                 onSuccess={handleSuccess}
                 onClose={() => setSentTokenDialogBeenOpened(false)}
             />
-            <List className="list">
+            <List
+                sx={{
+                    overflowY: 'auto',
+                    maxHeight: 'calc(100vh - 32px - 56px - 20px - 86px - 60px)',
+                }}
+            >
                 {
                     [eth].concat(tokens).map((token) => (
-                        <div key={token.name}>
+                        <Box key={token.name}>
                             <ListItemButton onClick={() => handleClick(token)}>
                                 <ListItemAvatar>
                                     <Avatar sx={{ backgroundColor: 'transparent' }}>
@@ -177,15 +205,31 @@ export default function Tokens() {
                                 </ListItemIcon>
                             </ListItemButton>
                             <Divider variant="inset" component="li" />
-                        </div>
+                        </Box>
                     ))
                 }
             </List>
-            <div className="import-token-container">
+            <Box
+                sx={{
+                    height: '60px',
+                    display: 'flex',
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
                 <Divider />
-                <p className="tip"> 找不到您的代币？</p>
-                <Button color="secondary" sx={{ width: '100%' }} onClick={() => setImportDialogBeenOpened(true)}>导入代币</Button>
-            </div>
-        </div>
+                <Box sx={{ mt: 2 }}> 找不到您的代币？</Box>
+                <Button
+                    sx={{
+                        mt: 1,
+                    }}
+                    onClick={() => setImportDialogBeenOpened(true)}
+                >
+                    导入代币
+                </Button>
+            </Box>
+        </Box>
     )
 }

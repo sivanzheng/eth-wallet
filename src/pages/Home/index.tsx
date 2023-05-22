@@ -1,21 +1,25 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import {
+    Box,
+    Button,
+    ClickAwayListener,
+    Divider,
+    Typography,
+    IconButton,
+    Paper,
+    Popover,
+    MenuItem,
+    MenuList,
+} from '@mui/material'
+
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import ClickAwayListener from '@mui/material/ClickAwayListener'
-import Paper from '@mui/material/Paper'
-import Popover from '@mui/material/Popover'
-import MenuItem from '@mui/material/MenuItem'
-import MenuList from '@mui/material/MenuList'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 import { useGlobalContext, Actions } from '@/contexts/GlobalProvider'
 import { formatAddress, generateIcon } from '@/common/utils'
 
 import Tokens from '@/components/Tokens'
-
-import './index.less'
 
 export default function Home() {
     const { state, dispatch } = useGlobalContext()
@@ -42,30 +46,59 @@ export default function Home() {
     }
 
     const handleLogout = () => {
-        dispatch({ type: Actions.LOGOUT })
+        dispatch({ type: Actions.Logout })
         navigate('/import')
     }
     return (
-        <div>
-            <div className="home-header">
-                <div>
-                    <div className="account">
-                        <p>Account 1</p>
-                        {generateIcon(state.wallet ? state.wallet.address : '') }
-                    </div>
+        <Box>
+            <Box
+                sx={{
+                    p: [1, 2],
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
+            >
+                <Box>
+                    <Box
+                        sx={{
+                            mb: 1,
+                            display: 'flex',
+                            fontSize: '20px',
+                            alignItems: 'center',
+                        }}
+                    >
 
-                    <div className="address">
-                        <p>{ formatAddress(state.wallet ? state.wallet.address : '')}</p>
+                        <Typography>Account 1</Typography>
+                        {generateIcon(state.wallet ? state.wallet.address : '')}
+                    </Box>
+
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Typography
+                            sx={{
+                                mr: 0.5,
+                            }}
+                        >
+                            {formatAddress(state.wallet ? state.wallet.address : '')}
+                        </Typography>
                         <IconButton onClick={handleCopy}>
                             <ContentCopyIcon sx={{ fontSize: '16px' }} />
                         </IconButton>
-                    </div>
-                </div>
-                <div>
-                    <IconButton ref={anchorRef} onClick={handleToggle}>
+                    </Box>
+                </Box>
+                <Box>
+                    <IconButton
+                        ref={anchorRef}
+                        onClick={handleToggle}
+                    >
                         <MoreVertIcon />
                     </IconButton>
-                </div>
+                </Box>
                 <Popover
                     open={open}
                     anchorEl={anchorRef.current}
@@ -84,16 +117,20 @@ export default function Home() {
                                 autoFocusItem={open}
                                 aria-labelledby="composition-button"
                             >
-                                <MenuItem onClick={handleLogout}>登出账号</MenuItem>
+                                <MenuItem
+                                    onClick={handleLogout}
+                                >
+                                    <Button>
+                                        登出账号
+                                    </Button>
+                                </MenuItem>
                             </MenuList>
                         </ClickAwayListener>
                     </Paper>
                 </Popover>
-            </div>
+            </Box>
             <Divider />
-            <div className="home-body">
-                <Tokens />
-            </div>
-        </div>
+            <Tokens />
+        </Box>
     )
 }

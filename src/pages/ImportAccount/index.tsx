@@ -1,26 +1,29 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ethers, Wallet } from 'ethers'
-import FormControl from '@material-ui/core/FormControl'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import LinearProgress from '@mui/material/LinearProgress'
+import {
+    Alert,
+    Avatar,
+    Box,
+    Button,
+    TextField,
+    FormControl,
+    InputAdornment,
+    IconButton,
+    LinearProgress,
+    Snackbar,
+    Typography,
+} from '@mui/material'
+
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import VpnKeyIcon from '@mui/icons-material/VpnKey'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
-import Snackbar from '@mui/material/Snackbar'
-import Alert from '@mui/material/Alert'
+
 import { orange } from '@mui/material/colors'
 
 import { useGlobalContext, Actions } from '@/contexts/GlobalProvider'
-import { STORAGE_KEY } from '@/common/models'
-
-import './index.less'
+import { StorageKey } from '@/common/models'
 
 export default function ImportAccount() {
     const { state } = useGlobalContext()
@@ -64,10 +67,10 @@ export default function ImportAccount() {
             },
         )
 
-        window.localStorage.setItem(STORAGE_KEY.ENCRYPTED_JSON_WALLET, result)
+        window.localStorage.setItem(StorageKey.EncryptedJsonWallet, result)
 
         dispatch({
-            type: Actions.SET_WALLAT,
+            type: Actions.SetWallet,
             payload: { wallet },
         })
 
@@ -75,7 +78,12 @@ export default function ImportAccount() {
         navigate('/')
     }
     return (
-        <div className="import-account-container">
+        <Box
+            sx={{
+                p: [0, 2],
+                height: '100%',
+            }}
+        >
             <Snackbar
                 open={openState}
                 autoHideDuration={1000}
@@ -85,100 +93,155 @@ export default function ImportAccount() {
                     错误！请重试！
                 </Alert>
             </Snackbar>
-            {
-                isPrivateKey ? (
-                    <div className="header">
-                        <Avatar sx={{ backgroundColor: orange[600] }}>
-                            <VpnKeyIcon />
-                        </Avatar>
-                        <p>请输入私钥并设置钱包密码</p>
-                    </div>
-                ) : (
-                    <div className="header">
-                        <Avatar sx={{ backgroundColor: orange[600] }}>
-                            <AppRegistrationIcon />
-                        </Avatar>
-                        <p>请输入助记词并设置钱包密码</p>
-                    </div>
-                )
-            }
-
-            <form onSubmit={handleSubmit}>
-                <FormControl
-                    fullWidth
-                    color="secondary"
-                >
-                    <TextField
-                        required
-                        label={isPrivateKey ? '私钥' : '助记词'}
-                        variant="standard"
-                        autoComplete="off"
-                        className="input"
-                        type={privateKeyVisibility ? 'text' : 'password'}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle key visibility"
-                                        onClick={() => setPrivateKeyVisibility(!privateKeyVisibility)}
-                                    >
-                                        {privateKeyVisibility ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                        onChange={(e) => setPrivateKey(e.target.value)}
-                    />
-                    <TextField
-                        required
-                        label="设置钱包密码"
-                        variant="standard"
-                        autoComplete="off"
-                        className="input"
-                        type={passwordVisibility ? 'text' : 'password'}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle key visibility"
-                                        onClick={() => setPasswordVisible(!passwordVisibility)}
-                                    >
-                                        {passwordVisibility ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    {
-                        loading ? (
-                            <Box sx={{ width: '100%', mt: '40px' }}>
-                                <LinearProgress variant="determinate" value={progress} />
-                            </Box>
-                        ) : (
-                            <Box>
-                                <Button
-                                    disableElevation
-                                    className="button mgt-40"
-                                    type="submit"
-                                    variant="contained"
-                                >
-                                    导入账号
-                                </Button>
-                                <Button disableElevation className="button" variant="contained">
-                                    取消
-                                </Button>
-                                <Button sx={{ width: '100%' }} onClick={() => setIsPrivateKey(!isPrivateKey)}>
-                                    { isPrivateKey ? '从助记词导入' : '从私钥导入'}
-                                </Button>
-                            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    height: '70px',
+                    textAlign: 'center',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    mt: 2,
+                }}
+            >
+                {
+                    isPrivateKey
+                        ? (
+                            <>
+                                <Avatar sx={{ backgroundColor: orange[600] }}>
+                                    <VpnKeyIcon />
+                                </Avatar>
+                                <Typography>请输入私钥并设置钱包密码</Typography>
+                            </>
                         )
-                    }
-                    <Button sx={{ width: '100%' }} onClick={() => navigate('/create')}>
-                        还没有账号？点击创建
-                    </Button>
-                </FormControl>
-            </form>
-        </div>
+                        : (
+                            <>
+                                <Avatar sx={{ backgroundColor: orange[600] }}>
+                                    <AppRegistrationIcon />
+                                </Avatar>
+                                <p>请输入助记词并设置钱包密码</p>
+                            </>
+                        )
+                }
+            </Box>
+            <Box
+                sx={{
+                    p: 2,
+                }}
+            >
+                <form onSubmit={handleSubmit}>
+                    <FormControl
+                        fullWidth
+                        color="secondary"
+                        sx={{
+                            margin: '0 auto',
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                        }}
+                    >
+                        <TextField
+                            required
+                            fullWidth
+                            label={isPrivateKey ? '私钥' : '助记词'}
+                            variant="outlined"
+                            autoComplete="off"
+                            sx={{ mt: 2 }}
+                            type={privateKeyVisibility ? 'text' : 'password'}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle key visibility"
+                                            onClick={() => setPrivateKeyVisibility(!privateKeyVisibility)}
+                                        >
+                                            {privateKeyVisibility ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                            onChange={(e) => setPrivateKey(e.target.value)}
+                        />
+                        <TextField
+                            required
+                            fullWidth
+                            label="设置钱包密码"
+                            variant="outlined"
+                            autoComplete="off"
+                            sx={{ mt: 2 }}
+                            type={passwordVisibility ? 'text' : 'password'}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle key visibility"
+                                            onClick={() => setPasswordVisible(!passwordVisibility)}
+                                        >
+                                            {passwordVisibility ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        {
+                            loading ? (
+                                <Box
+                                    sx={{
+                                        width: '100%',
+                                        mt: 5,
+                                    }}
+                                >
+                                    <LinearProgress variant="determinate" value={progress} />
+                                </Box>
+                            ) : (
+                                <Box
+                                    sx={{
+                                        width: '100%',
+                                    }}
+                                >
+                                    <Button
+                                        fullWidth
+                                        disableElevation
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{
+                                            mt: 5,
+                                        }}
+                                    >
+                                        导入账号
+                                    </Button>
+                                    <Button
+                                        fullWidth
+                                        disableElevation
+                                        variant="contained"
+                                        sx={{
+                                            mt: 5,
+                                        }}
+                                    >
+                                        取消
+                                    </Button>
+                                    <Button
+                                        fullWidth
+                                        sx={{ mt: 1 }}
+                                        onClick={() => setIsPrivateKey(!isPrivateKey)}
+                                    >
+                                        { isPrivateKey ? '从助记词导入' : '从私钥导入'}
+                                    </Button>
+                                </Box>
+                            )
+                        }
+                        <Button
+                            fullWidth
+                            sx={{ mt: 1 }}
+                            onClick={() => navigate('/create')}
+                        >
+                            还没有账号？点击创建
+                        </Button>
+                    </FormControl>
+                </form>
+            </Box>
+
+        </Box>
     )
 }

@@ -44,11 +44,11 @@ export function fixedToBigNumber(fixed: number, decimals: number) {
     if (!fixed) {
         return ethers.constants.Zero
     }
-    const strs = fixed.toString().split('.')
+    const strings = fixed.toString().split('.')
     let power = 0
-    let str = strs[0]
-    if (strs.length > 1) {
-        let tail = strs[1]
+    let str = strings[0]
+    if (strings.length > 1) {
+        let tail = strings[1]
         const len = tail.length
         if (len > decimals) {
             tail = tail.substring(0, decimals)
