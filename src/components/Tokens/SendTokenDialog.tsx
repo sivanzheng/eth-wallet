@@ -1,23 +1,24 @@
 import { useState } from 'react'
 import { ethers } from 'ethers'
-import FormControl from '@material-ui/core/FormControl'
-import TextField from '@material-ui/core/TextField'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
-import Dialog from '@mui/material/Dialog'
-import Button from '@mui/material/Button'
-import Backdrop from '@mui/material/Backdrop'
-import Box from '@mui/material/Box'
-import Fab from '@mui/material/Fab'
-import CircularProgress from '@mui/material/CircularProgress'
+import {
+    Box,
+    Button,
+    Backdrop,
+    CircularProgress,
+    Fab,
+    FormControl,
+    TextField,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+} from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check'
-import { green } from '@material-ui/core/colors'
+import { green } from '@mui/material/colors'
 
 import { Token } from '@/common/models'
 import { getSignedContract, fixedToBigNumber } from '@/common/utils'
 import { useGlobalContext } from '@/contexts/GlobalProvider'
-import './index.less'
 
 export interface SendTokenDialogProps {
     open: boolean;
@@ -106,26 +107,40 @@ export default function SendTokenDialog(props: SendTokenDialogProps) {
             open={open}
         >
             <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={loading}
+                sx={{
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                }}
             >
-                <Box sx={{ m: 1, position: 'relative' }}>
+                <Box
+                    sx={{
+                        m: 1,
+                        position: 'relative',
+                    }}
+                >
                     {
-                        success ? (
-                            <Fab
-                                color="primary"
-                                sx={{ bgcolor: green[300] }}
-                            >
-                                <CheckIcon sx={{ bgcolor: green[300] }} />
-                            </Fab>
-                        ) : (
-                            <CircularProgress sx={{ color: '#fff' }} />
-                        )
+                        success
+                            ? (
+                                <Fab
+                                    color="primary"
+                                    sx={{ bgcolor: green[300] }}
+                                >
+                                    <CheckIcon sx={{ bgcolor: green[300] }} />
+                                </Fab>
+                            )
+                            : (
+                                <CircularProgress
+                                    sx={{ color: '#fff' }}
+                                />
+                            )
                     }
                 </Box>
             </Backdrop>
             <form onSubmit={onSubmit}>
-                <DialogTitle>发送{token?.name}</DialogTitle>
+                <DialogTitle>
+                    发送{token?.name}
+                </DialogTitle>
                 <DialogContent dividers>
                     <FormControl
                         fullWidth
@@ -134,28 +149,25 @@ export default function SendTokenDialog(props: SendTokenDialogProps) {
                         <TextField
                             disabled
                             label={`${token?.name}余额`}
+                            sx={{ mt: 2 }}
                             autoComplete="off"
-                            className="input"
                             variant="outlined"
-                            margin="normal"
                             value={token?.balance}
                         />
                         <TextField
                             required
                             label="接收地址"
+                            sx={{ mt: 2 }}
                             autoComplete="off"
-                            className="input"
                             variant="outlined"
-                            margin="normal"
                             onBlur={(e) => setSendData({ ...sendData, address: e.target.value })}
                         />
                         <TextField
                             required
                             label="发送数量"
+                            sx={{ mt: 2 }}
                             autoComplete="off"
-                            className="input"
                             variant="outlined"
-                            margin="normal"
                             onBlur={(e) => setSendData({ ...sendData, amount: e.target.value })}
                         />
                         {
@@ -164,7 +176,7 @@ export default function SendTokenDialog(props: SendTokenDialogProps) {
                                     disabled
                                     label="预估燃料价格"
                                     autoComplete="off"
-                                    className="input"
+                                    sx={{ mt: 2 }}
                                     variant="outlined"
                                     margin="normal"
                                     value={gasFee}
@@ -178,13 +190,21 @@ export default function SendTokenDialog(props: SendTokenDialogProps) {
                         取消
                     </Button>
                     {
-                        next ? (
-                            <Button type="submit">发送</Button>
-                        ) : (
-                            <Button onClick={handleNext}>
-                                下一步
-                            </Button>
-                        )
+                        next
+                            ? (
+                                <Button
+                                    type="submit"
+                                >
+                                    发送
+                                </Button>
+                            )
+                            : (
+                                <Button
+                                    onClick={handleNext}
+                                >
+                                    下一步
+                                </Button>
+                            )
                     }
                 </DialogActions>
             </form>

@@ -6,10 +6,10 @@ export interface Token {
     balance: number | string
 }
 
-export enum STORAGE_KEY {
-    ADDRESS = 'ETH_WALLAT_ADDRESS',
-    TOKEN_ADDRESSES = 'ETH_TOKEN_ADDRESSES',
-    ENCRYPTED_JSON_WALLET = 'ENCRYPTED_JSON_WALLET',
+export enum StorageKey {
+    Address = 'ETH_WALLET_ADDRESS',
+    TokenAddress = 'ETH_TOKEN_ADDRESSES',
+    EncryptedJsonWallet = 'ENCRYPTED_JSON_WALLET',
 }
 
 export interface BN {

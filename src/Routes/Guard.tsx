@@ -7,7 +7,7 @@ import {
     NavigateFunction,
 } from 'react-router-dom'
 import { ethers } from 'ethers'
-import { STORAGE_KEY } from '@/common/models'
+import { StorageKey } from '@/common/models'
 import RouteObject from './RouteObject'
 import { useGlobalContext } from '@/contexts/GlobalProvider'
 import { routes as routesConfig } from './index'
@@ -29,7 +29,7 @@ function guard(location: Location, navigate: NavigateFunction, routes: RouteObje
     if (!routeDetail) return false
 
     if (routeDetail.auth) {
-        const encryptedJsonWallet = window.localStorage.getItem(STORAGE_KEY.ENCRYPTED_JSON_WALLET)
+        const encryptedJsonWallet = window.localStorage.getItem(StorageKey.EncryptedJsonWallet)
         if (!encryptedJsonWallet) {
             navigate('/import')
             return false

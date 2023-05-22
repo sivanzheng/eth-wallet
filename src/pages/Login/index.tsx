@@ -1,18 +1,20 @@
 import { ethers } from 'ethers'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import TextField from '@mui/material/TextField'
-import InputAdornment from '@mui/material/InputAdornment'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
+import {
+    Box,
+    Button,
+    IconButton,
+    TextField,
+    Typography,
+    FormControl,
+    InputAdornment,
+} from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import FormControl from '@mui/material/FormControl'
 
-import { STORAGE_KEY } from '@/common/models'
+import { StorageKey } from '@/common/models'
 import { useGlobalContext, Actions } from '@/contexts/GlobalProvider'
-import './index.less'
 
 export default function Login() {
     const { state } = useGlobalContext()
@@ -27,11 +29,11 @@ export default function Login() {
         e.preventDefault()
         if (!password) return
         try {
-            const encryptedWallet = window.localStorage.getItem(STORAGE_KEY.ENCRYPTED_JSON_WALLET)
+            const encryptedWallet = window.localStorage.getItem(StorageKey.EncryptedJsonWallet)
             if (!encryptedWallet) return
             let wallet = ethers.Wallet.fromEncryptedJsonSync(encryptedWallet, password)
             wallet = wallet.connect(state.provider)
-            dispatch({ type: Actions.RECOVER_WALLET_ADN_ERC20, payload: { wallet } })
+            dispatch({ type: Actions.RecoverWalletAdnERC20, payload: { wallet } })
             navigate('/')
         } catch (error) {
             console.error(error)
@@ -39,7 +41,7 @@ export default function Login() {
     }
 
     return (
-        <div className="login-account-container">
+        <Box sx={{ p: 2, height: '100%' }}>
             <form onSubmit={handleSubmit}>
                 <FormControl
                     fullWidth
@@ -51,7 +53,7 @@ export default function Login() {
                     <TextField
                         required
                         label="请输入密码"
-                        variant="standard"
+                        variant="outlined"
                         autoComplete="off"
                         sx={{ mt: '40px' }}
                         type={privateKeyVisibility ? 'text' : 'password'}
@@ -73,14 +75,14 @@ export default function Login() {
                     <Button
                         fullWidth
                         type="submit"
-                        color="secondary"
-                        sx={{ mt: '40px' }}
+                        variant="contained"
+                        sx={{ mt: 5 }}
                         onClick={handleSubmit}
                     >
                         登录
                     </Button>
                 </FormControl>
             </form>
-        </div>
+        </Box>
     )
 }

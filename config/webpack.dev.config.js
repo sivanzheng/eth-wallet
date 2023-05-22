@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
     mode: 'development',
-    devtool: 'cheap-module-source-map',
+    devtool: 'eval-cheap-module-source-map',
     output: {
         filename: 'static/js/[name].js',
     },

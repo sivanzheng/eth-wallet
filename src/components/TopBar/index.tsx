@@ -1,8 +1,10 @@
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    Grid,
+} from '@mui/material'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
-import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
 
 import NetworkMenu from '@/components/NetworkMenu'
 
@@ -10,10 +12,10 @@ export default function TopBar() {
     return (
         <AppBar
             position="static"
-            sx={{
-                background: 'linear-gradient(7deg, #00bcd4, #186a62)',
-                borderRadius: '4px 4px 0 0',
-            }}
+            sx={(theme) => ({
+                background: `linear-gradient(7deg, ${theme.palette.primary}, ${theme.palette.background.default})`,
+                borderRadius: '8px 8px 0 0',
+            })}
         >
             <Toolbar>
                 <Grid

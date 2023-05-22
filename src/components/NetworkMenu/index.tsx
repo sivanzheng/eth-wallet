@@ -1,11 +1,13 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
-import Avatar from '@mui/material/Avatar'
-import Badge from '@mui/material/Badge'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import Tooltip from '@mui/material/Tooltip'
-import IconButton from '@mui/material/IconButton'
+import {
+    Avatar,
+    Badge,
+    Menu,
+    MenuItem,
+    Tooltip,
+    IconButton,
+} from '@mui/material'
 import { teal, pink } from '@mui/material/colors'
 
 export default function NetworkMenu() {
@@ -29,9 +31,6 @@ export default function NetworkMenu() {
         <>
             <Tooltip title="网络选择">
                 <IconButton
-                    aria-controls={open ? 'account-menu' : undefined}
-                    aria-expanded={open ? 'true' : undefined}
-                    aria-haspopup="true"
                     size="small"
                     sx={{ ml: 2 }}
                     onClick={handleClick}
@@ -48,17 +47,16 @@ export default function NetworkMenu() {
                 </IconButton>
             </Tooltip>
             <Menu
-                id="account-menu"
+                open={open}
                 anchorEl={anchorEl}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                open={open}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 PaperProps={{
                     elevation: 0,
                     sx: {
+                        mt: 1.5,
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                        mt: 1.5,
                         '& .MuiAvatar-root': {
                             width: 32,
                             height: 32,
@@ -83,10 +81,20 @@ export default function NetworkMenu() {
                 onClose={handleClose}
             >
                 <MenuItem disabled>
-                    <Avatar sx={{ bgcolor: teal[300] }}> 主 </Avatar> 以太坊 Ethereum 主网络
+                    <Avatar
+                        sx={{ bgcolor: teal[300] }}
+                    >
+                        主
+                    </Avatar>
+                    以太坊 Ethereum 主网络
                 </MenuItem>
                 <MenuItem>
-                    <Avatar sx={{ bgcolor: pink[300] }}> R </Avatar> Ropsten 测试网络
+                    <Avatar
+                        sx={{ bgcolor: pink[300] }}
+                    >
+                        R
+                    </Avatar>
+                    Ropsten 测试网络
                 </MenuItem>
             </Menu>
         </>
